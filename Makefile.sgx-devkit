@@ -31,13 +31,13 @@
 
 ###################################################################
 base_dir := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-BUILD_DIR := $(base_dir)/builds/1SGX
+BUILD_DIR := $(base_dir)/builds/sgx-dev
 FPGA_DIR := $(base_dir)/fpga-shells/intel
-PROJECT := sifive.fpgashells.shell.intel.sgx
-MODEL := SGXShell
-export CONFIG_PROJECT := sifive.freedom.unleashed
+PROJECT := sifive.freedom.sgx.dev
+MODEL := FPGAChip
+export CONFIG_PROJECT := sifive.freedom.sgx.dev
 export CONFIG := DefaultSGXConfig
-export BOARD := SGX
+export BOARD := sgx
 export BOOTROM_DIR := $(base_dir)/bootrom/sdboot
 
 rocketchip_dir := $(base_dir)/rocket-chip

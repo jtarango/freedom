@@ -31,7 +31,7 @@ class SystemModule[+L <: System](_outer: L)
     with HasPeripherySPIModuleImp
     with HasPeripheryUARTModuleImp
     with HasPeripheryGPIOModuleImp
-    with HasAltmemphyDDR2Imp
+    with HasAltmemphyDDR4Imp
 {
   // Reset vector is set to the location of the mask rom
   val maskROMParams = p(PeripheryMaskROMKey)
