@@ -202,3 +202,6 @@ card slot on the VC707 board.
 
 The bootable Linux image for vc707 is able to build from the link
 [SD boot image](https://github.com/sifive/freedom-u-sdk).
+
+# Example .bashrc Additions
+
