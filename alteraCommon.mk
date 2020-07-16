@@ -77,21 +77,36 @@ f := $(BUILD_DIR)/$(CONFIG_PROJECT).$(CONFIG).vsrcs.F
 $(f):
 	echo $(VSRCS) > $@
 
+#sof := $(BUILD_DIR)/obj/$(MODEL).sof
+#$(sof): $(romgen) $(f)
+#	cd $(BUILD_DIR); quartus_sh \
+#		-t $(fpga_common_script_dir)/quartus.tcl \
+#		-tclargs \
+#		-top-module "$(MODEL)" \
+#		-F "$(f)" \
+#		-ip-quartus-tcls "$(shell find '$(BUILD_DIR)' -name '*.quartus.tcl')" \
+#		-board "$(BOARD)"
+
 sof := $(BUILD_DIR)/obj/$(MODEL).sof
 $(sof): $(romgen) $(f)
 	cd $(BUILD_DIR); quartus_sh \
 		-t $(fpga_common_script_dir)/quartus.tcl \
-		-tclargs \
-		-top-module "$(MODEL)" \
-		-F "$(f)" \
+		compile \
+		-t "$(MODEL)" \
+		-f "$(f)" \
 		-ip-quartus-tcls "$(shell find '$(BUILD_DIR)' -name '*.quartus.tcl')" \
-		-board "$(BOARD)"
+		-d "$(BOARD)"
 
 
 # Build .mcs
+#mcs := $(BUILD_DIR)/obj/$(MODEL).mcs
+#$(mcs): $(sof)
+#	cd $(BUILD_DIR); quartus -nojournal -mode batch -source $(fpga_common_script_dir)/write_cfgmem.tcl -tclargs $(BOARD) $@ $<
 mcs := $(BUILD_DIR)/obj/$(MODEL).mcs
-$(mcs): $(sof)
-	cd $(BUILD_DIR); quartus -nojournal -mode batch -source $(fpga_common_script_dir)/write_cfgmem.tcl -tclargs $(BOARD) $@ $<
+$(mcs):
+	cd $(BUILD_DIR); quartus_sh -t $(fpga_common_script_dir)/write_cfgmem.tcl -tclargs $(BOARD) $@ $<
+
+
 
 .PHONY: mcs
 mcs: $(mcs)
