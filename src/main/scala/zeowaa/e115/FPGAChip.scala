@@ -1,17 +1,12 @@
-package sifive.freedom.sgx.dev
+package sifive.freedom.zeowaa.e115
 
 import chisel3._
 import chisel3.core.withClockAndReset
 import freechips.rocketchip.config.Parameters
-
-import shell.intel.sgxShell
-
+import shell.intel.ZeowaaShell
 import sifive.fpgashells.ip.intel.{IBUF, IOBUF}
 
-//-------------------------------------------------------------------------
-// Intel SGX System Developer Kit
-//-------------------------------------------------------------------------
-class FPGAChip(override implicit val p: Parameters) extends sgxShell {
+class FPGAChip(override implicit val p: Parameters) extends ZeowaaShell {
   withClockAndReset(cpu_clock, cpu_rst) {
     val dut = Module(new Platform)
 

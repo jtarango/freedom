@@ -31,18 +31,20 @@
 # Setup for Build
 ###################################################################
 base_dir := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-BUILD_DIR := $(base_dir)/builds/sgx-dev
+BUILD_DIR := $(base_dir)/builds/sgx-min
 FPGA_DIR := $(base_dir)/fpga-shells/intel
-PROJECT := sifive.freedom.sgx.dev
+PROJECT := sifive.freedom.sgx.min
 MODEL := FPGAChip
-export CONFIG_PROJECT := sifive.freedom.sgx.dev
+export CONFIG_PROJECT := sifive.freedom.sgx.min
 # DefaultTinySGXConfig, DefaultMiddleSGXConfig, DefaultSGXConfig
 export CONFIG := DefaultSGXConfig
 export BOARD := sgx-dev
 export BOOTROM_DIR := $(base_dir)/bootrom/sdboot
+export TESTROM_DIR := $(base_dir)/$(base_dir)/bootrom/xip
 
 rocketchip_dir := $(base_dir)/rocket-chip
 sifiveblocks_dir := $(base_dir)/sifive-blocks
+DRAM_SUPPORT = false
 
 ###################################################################
 # Part, Family
@@ -63,7 +65,6 @@ SDC_IFILE = top_fpga_.sdc # In file.
 # srec_cat -Output $(BUILD_DIR)/xip.hex -Intel $(BUILD_DIR)/xip.bin -Binary -Output_Block_Size 128
 
 all: verilog
-	$(MAKE) -C $(BOOTROM_DIR) clean romgen || true
-	srec_cat -Output $(BUILD_DIR)/bootrom.mif -Memory_Initialization_File 32 $(BUILD_DIR)/sdboot.bin -Binary -Output_Block_Size 128
+    $(info Done generation in $(BUILD_DIR))
 
 include altera.mk

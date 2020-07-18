@@ -31,7 +31,10 @@
 #export RISCV_OCDHOME=/opt/RISC-V/riscv-openocd-0.10.0-2019.02.0-x86_64-linux-ubuntu14
 #export RISCV=${RISCV_GCCHOME}
 #export RISCV_OPENOCD=${RISCV_OCDHOME}
-
+# Board information https://fpgacloud.intel.com/devstore/board/
+# Stratix 10 Board https://fpgacloud.intel.com/devstore/platform/?board=98
+# I.E. https://fpgacloud.intel.com/devstore/platform/19.3.0/Pro/intel-stratix-10-h-tile-cvp-example-design-for-initialization-mode/
+# https://rocketboards.org/foswiki/Projects/Stratix10PCIeRootPortWithMSI
 ###################################################################
 # export to bootloader
 ###################################################################
@@ -100,9 +103,34 @@ ifneq ($(BOOTROM_DIR),"")
 	mv $(BUILD_DIR)/rom.v $@
 endif
 
+###################################################################
+# Build test binaries for development, leds, leds with DRAM, xip, 
+#  bootrom.
+###################################################################
+ifndef BOOTROM_DIR
+    export BOOTROM_DIR := $(base_dir)/bootrom/sdboot
+endif
+
+ifndef TESTROM_DIR
+    export TESTROM_DIR := $(base_dir)/bootrom/xip
+endif
+ifndef DRAM_SUPPORT
+    DRAM_SUPPORT = false
+endif
 .PHONY: romgen
 romgen: $(romgen)
-	srec_cat -Output $(BUILD_DIR)/bootrom.mif -Memory_Initialization_File 32 $(BUILD_DIR)/sdboot.bin -Binary -Output_Block_Size 128
+	$(MAKE) -C $(TESTROM_DIR) ASM_SRC=leds clean romgen || true
+	srec_cat -Output $(BUILD_DIR)/leds.hex -Intel $(BUILD_DIR)/leds.bin -Memory_Initialization_File 32 $(BUILD_DIR)/leds.bin -Binary -Output_Block_Size 128
+	$(MAKE) -C $(TESTROM_DIR) ASM_SRC=xip romgen || true	
+	srec_cat -Output $(base_dir)/bootrom/xip/xip.hex -Intel $(BUILD_DIR)/xip.bin -Memory_Initialization_File 32 $(BUILD_DIR)/sdboot.bin -Binary -Output_Block_Size 128
+	$(MAKE) -C $(BOOTROM_DIR) clean romgen || true
+	srec_cat -Output $(BUILD_DIR)/bootrom.mif -Memory_Initialization_File 32 $(BUILD_DIR)/sdboot.bin -Binary -Output_Block_Size 128	
+	$(info Checking DRAM Support)
+    ifeq ($(DRAM_SUPPORT), true)
+        $(MAKE) -C $(TESTROM_DIR) ASM_SRC=ledsDRAM romgen || true
+        srec_cat -Output $(BUILD_DIR)/ledsDRAM.hex -Intel $(BUILD_DIR)/leds.bin -Memory_Initialization_File 32 $(BUILD_DIR)/ledsDRAM.bin -Binary -Output_Block_Size 128
+    endif
+
 
 f := $(BUILD_DIR)/$(CONFIG_PROJECT).$(CONFIG).vsrcs.F
 $(f):

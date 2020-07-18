@@ -1,17 +1,15 @@
-package sifive.freedom.sgx.dev
+package sifive.freedom.sgx.min
 
 import chisel3._
 import chisel3.core.withClockAndReset
 import freechips.rocketchip.config.Parameters
-
-import shell.intel.sgxShell
-
+import shell.intel.sgxMinShell
 import sifive.fpgashells.ip.intel.{IBUF, IOBUF}
 
 //-------------------------------------------------------------------------
 // Intel SGX System Developer Kit
 //-------------------------------------------------------------------------
-class FPGAChip(override implicit val p: Parameters) extends sgxShell {
+class FPGAChip(override implicit val p: Parameters) extends sgxMinShell {
   withClockAndReset(cpu_clock, cpu_rst) {
     val dut = Module(new Platform)
 
@@ -24,11 +22,6 @@ class FPGAChip(override implicit val p: Parameters) extends sgxShell {
     IBUF(dut.io.uart_rx, uart_rx)
     uart_tx := dut.io.uart_tx
 
-    sd_cs := dut.io.sd_cs
-    sd_sck := dut.io.sd_sck
-    sd_mosi := dut.io.sd_mosi
-    dut.io.sd_miso := sd_miso
-
     Seq(led_0, led_1, led_2, led_3) zip dut.io.gpio.pins foreach {
       case (led, pin) =>
         led := ~Mux(pin.o.oe, pin.o.oval, false.B)
@@ -37,7 +30,6 @@ class FPGAChip(override implicit val p: Parameters) extends sgxShell {
     dut.io.gpio.pins.foreach(_.i.ival := false.B)
     IBUF(dut.io.gpio.pins(4).i.ival, key1)
     IBUF(dut.io.gpio.pins(5).i.ival, key2)
-
-    wireMemory(dut.io.mem_if)
   }
+  cpu_clock <> clk25
 }

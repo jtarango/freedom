@@ -1,4 +1,4 @@
-package sifive.freedom.sgx.dev
+package sifive.freedom.zeowaa.e115
 
 import chisel3._
 import freechips.rocketchip.config.Parameters
@@ -6,16 +6,11 @@ import freechips.rocketchip.devices.debug.JtagDTMKey
 import freechips.rocketchip.diplomacy.{FixedClockResource, LazyModule}
 import freechips.rocketchip.jtag.JTAGIO
 import freechips.rocketchip.util.SyncResetSynchronizerShiftReg
-
 import shell.intel.MemIfBundle
-
 import sifive.blocks.devices.gpio.{GPIOPins, PeripheryGPIOKey}
 import sifive.blocks.devices.pinctrl.BasePin
 import sifive.freedom.unleashed.DevKitFPGAFrequencyKey
 
-//-------------------------------------------------------------------------
-// Platform IO
-//-------------------------------------------------------------------------
 class PlatformIO(implicit val p: Parameters) extends Bundle {
   val jtag = Flipped(new JTAGIO(hasTRSTn = false))
   val jtag_reset = Input(Bool())
@@ -31,9 +26,6 @@ class PlatformIO(implicit val p: Parameters) extends Bundle {
   val sd_miso = Input(Bool())
 }
 
-//-------------------------------------------------------------------------
-// Intel SGX System Developer Kit
-//-------------------------------------------------------------------------
 class Platform(implicit p: Parameters) extends Module {
   val sys = Module(LazyModule(new System).module)
   override val io = IO(new PlatformIO)
