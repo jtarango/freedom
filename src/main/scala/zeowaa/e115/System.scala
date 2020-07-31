@@ -11,14 +11,17 @@ import sifive.blocks.devices.gpio.{HasPeripheryGPIO, HasPeripheryGPIOModuleImp}
 import sifive.blocks.devices.spi.{HasPeripherySPI, HasPeripherySPIFlashModuleImp, HasPeripherySPIModuleImp, MMCDevice}
 import sifive.blocks.devices.uart.{HasPeripheryUART, HasPeripheryUARTModuleImp}
 import sifive.freedom.unleashed.DevKitFPGAFrequencyKey
+//-------------------------------------------------------------------------
+// Intel SGX System Developer Kit
+//-------------------------------------------------------------------------
 
 class System(implicit p: Parameters) extends RocketSubsystem
   with HasPeripheryMaskROMSlave
   with HasPeripheryDebug
-  with HasPeripherySPI
+  //with HasPeripherySPI
   with HasPeripheryUART
   with HasPeripheryGPIO
-  with HasAltmemphyDDR2
+  //with HasAltmemphyDDR2
 {
   val tlclock = new FixedClockResource("tlclk", p(DevKitFPGAFrequencyKey))
 
@@ -28,15 +31,14 @@ class System(implicit p: Parameters) extends RocketSubsystem
 class SystemModule[+L <: System](_outer: L)
   extends RocketSubsystemModuleImp(_outer)
     with HasPeripheryDebugModuleImp
-    with HasPeripherySPIModuleImp
+    //with HasPeripherySPIModuleImp
     with HasPeripheryUARTModuleImp
     with HasPeripheryGPIOModuleImp
-    with HasAltmemphyDDR2Imp
+    //with HasAltmemphyDDR2Imp
 {
   // Reset vector is set to the location of the mask rom
   val maskROMParams = p(PeripheryMaskROMKey)
   global_reset_vector := maskROMParams(0).address.U
-
   // Timer
 
   val rtcDivider = RegInit(0.asUInt(16.W)) // just in case, support up to 16 GHz :)
