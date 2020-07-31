@@ -259,7 +259,8 @@ source /opt/Xilinx/Vivado/2018.2/settings64.sh
 source /opt/Xilinx/SDK/2018.2/settings64.sh
 Altera GUI Command: ${XIL_HOME}/bin/vivado -mode gui
 ```
-## File Organization for adding an Intel FPGA Configuration
+## File Organization for adding an Intel FPGAs
+```
 freedom
 src/main/scala
    |
@@ -311,4 +312,4 @@ fpga-shells
                            |+-top.v      <-- Top FPGA file
                            |+-vJTAG/     <-- IP file
                            |+-vJTAG.ip   <-- IP files
-                           
+```
