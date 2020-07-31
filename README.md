@@ -9,11 +9,12 @@ U500 VC707 FPGA Dev Kit implements the Freedom U500 Platform and is designed to
 be mapped onto a [VC707 FPGA Evaluation
 Kit](https://www.xilinx.com/products/boards-and-kits/ek-v7-vc707-g.html).
 Both systems boot autonomously and can be controlled via an external debugger.
+Additionally, Intel FPGA templates on the [Stratix 10](https://www.intel.com/content/www/us/en/programmable/products/boards_and_kits/dev-kits/altera/kit-s10-fpga.html) and [Cyclone IV](https://www.intel.com/content/www/us/en/products/programmable/fpga/cyclone-iv.html) 
 
 Run the following commands to clone the repository and get started:
 
 ```sh
-$ git clone https://github.com/sifive/freedom.git
+$ git clone --recursive https://github.com/sifive/freedom.git
 $ cd freedom
 
 #Run this command to update subrepositories used by freedom
