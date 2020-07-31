@@ -117,13 +117,15 @@ $(info File Sources - $(VSRCS))
 ###################################################################
 # Copy files and run Intel FPGA generation process.
 ###################################################################
-mcs: verilog romgen fpga_make 
 .PHONY: mcs
+mcs: $(romgen) $(f) verilog fpga_make
+	fpga_make 
 
-fpga_make: verilog romgen
-	$(CP) -fv $(VRC_FILES) $(DEST_DIR)
-    $(MAKE) -C $(BUILD_DIR) $(FPGA_BASE_MAKE)
  .PHONY: fpga_make
+fpga_make: verilog $(romgen)
+	cp -fv $(FPGA_BASE_MAKE) $(BUILD_DIR)
+	$(MAKE) -C $(BUILD_DIR)
+
 
 ###################################################################
 # Copy files and run Intel FPGA generation process.

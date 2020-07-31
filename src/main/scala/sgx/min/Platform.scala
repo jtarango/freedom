@@ -9,6 +9,7 @@ import freechips.rocketchip.util.SyncResetSynchronizerShiftReg
 
 import sifive.blocks.devices.gpio.{GPIOPins, PeripheryGPIOKey}
 import sifive.blocks.devices.pinctrl.BasePin
+import sifive.freedom.unleashed.DevKitFPGAFrequencyKey
 
 //-------------------------------------------------------------------------
 // Platform IO

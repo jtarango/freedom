@@ -22,7 +22,7 @@ export CONFIG := DefaultSGXConfig
 export BOARD := sgx-dev
 export BOOTROM_DIR := $(base_dir)/bootrom/sdboot
 export TESTROM_DIR := $(base_dir)/$(base_dir)/bootrom/xip
-
+DRAM_SUPPORT=false
 ###################################################################
 # Part, Family
 ###################################################################
@@ -31,7 +31,9 @@ FPGA_DEVICE=1SG280HU2F50E2VG
 
 .DEFAULT_GOAL := all
 
-all: verilog romgen
-    $(info Done generation in $(BUILD_DIR))
+all: verilog
+	$(MAKE) -C $(BOOTROM_DIR) clean romgen
+	srec_cat -Output $(BUILD_DIR)/bootrom.mif -Memory_Initialization_File 32 $(BUILD_DIR)/sdboot.bin -Binary -Output_Block_Size 128
+	$(info Done generation in $(BUILD_DIR))
 
 include altera.mk

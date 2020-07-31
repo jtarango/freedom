@@ -42,6 +42,7 @@ class TinyPeripherals extends Config((site, here, up) => {
   case PeripheryUARTKey => List(
     UARTParams(address = BigInt(0x64000000L))
   )  
+  case DevKitFPGAFrequencyKey => ClockMHz
   case SystemBusKey => up(SystemBusKey).copy(
     errorDevice = Some(DevNullParams(
       Seq(AddressSet(0x3000, 0xfff)),

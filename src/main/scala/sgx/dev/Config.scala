@@ -58,6 +58,18 @@ class TinyPeripherals extends Config((site, here, up) => {
   case PeripheryMaskROMKey => List(
     MaskROMParams(address = 0x10000, name = "BootROM")
   )
+  case PeripheryUARTKey => List(
+    UARTParams(address = BigInt(0x64000000L))
+  )  
+  case DevKitFPGAFrequencyKey => ClockMHz
+  case SystemBusKey => up(SystemBusKey).copy(
+    errorDevice = Some(DevNullParams(
+      Seq(AddressSet(0x3000, 0xfff)),
+      maxAtomic=site(XLen)/8,
+      maxTransfer=128,
+      region = RegionType.TRACKED)))
+  case PeripheryBusKey =>
+    up(PeripheryBusKey, site).copy(frequency = (ClockMHz * 1000000).toInt, errorDevice = None)  
 })
 
 class MiddlePeripherals extends Config((site, here, up) => {

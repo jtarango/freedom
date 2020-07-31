@@ -10,7 +10,7 @@ import freechips.rocketchip.subsystem.{RocketSubsystem, RocketSubsystemModuleImp
 
 import sifive.blocks.devices.gpio.{HasPeripheryGPIO, HasPeripheryGPIOModuleImp}
 import sifive.blocks.devices.uart.{HasPeripheryUART, HasPeripheryUARTModuleImp}
-
+import sifive.freedom.unleashed.DevKitFPGAFrequencyKey
 //-------------------------------------------------------------------------
 // Intel SGX System Developer Kit
 //-------------------------------------------------------------------------
@@ -21,6 +21,8 @@ class System(implicit p: Parameters) extends RocketSubsystem
   with HasPeripheryUART
   with HasPeripheryGPIO
 {
+  val tlclock = new FixedClockResource("tlclk", p(DevKitFPGAFrequencyKey))
+
   override lazy val module = new SystemModule(this)
 }
 
@@ -33,4 +35,13 @@ class SystemModule[+L <: System](_outer: L)
   // Reset vector is set to the location of the mask rom
   val maskROMParams = p(PeripheryMaskROMKey)
   global_reset_vector := maskROMParams(0).address.U
+  // Timer
+
+  val rtcDivider = RegInit(0.asUInt(16.W)) // just in case, support up to 16 GHz :)
+  val mhzInt = p(DevKitFPGAFrequencyKey).toInt
+  // suppose, frequency in MHz is integral...
+  rtcDivider := Mux(rtcDivider === (mhzInt - 1).U, 0.U, rtcDivider + 1.U)
+  outer.clintOpt.foreach { clint =>
+    clint.module.io.rtcTick := rtcDivider === 0.U
+  }
 }
