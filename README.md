@@ -209,7 +209,8 @@ The bootable Linux image for vc707 is able to build from the link
 https://www.linkedin.com/in/joseph-tarango-451695a2/
 ### Senior Software Development Engineer Anatoly Trosinenko, AIRT LLC
 https://www.linkedin.com/in/anatoly-trosinenko-70202225
-## Intel FPGA setup	
+## Intel FPGA setup
+```Bash
 ALTERAD_LICENSE_FILE=123456@PresidentSkroob.PlanetSpaceball.com)
 export ALTERAPATH=/opt/intel/FPGA_pro/20.2)
 export ALTERAPATH="/opt/intel/FPGA_pro/20.2"
@@ -224,8 +225,9 @@ export PATH=${PATH}:${ALTERAPATH}/modelsim_ase/bin
 export PATH=${PATH}:${ALTERAPATH}/quartus/sopc_builder/bin
 export PATH=${PATH}:${QSYS_ROOTDIR}
 Altera GUI Command: ${ALTERAPATH}/qpro --64bit
-
+```
 ## Intel Compiler Setup)
+```Bash
 INTEL_LICENSE_FILE=1@DarkHelmet.PlanetSpaceball.com)
 INTEL_LICENSE_FILE=/opt/intel/licenses
 ISS_ROOT=/opt/intel/system_studio_2020
@@ -237,16 +239,18 @@ TBBROOT=${ISS_ROOT}/compilers_and_libraries/linux/tbb
 IE_COMPILER=${ISS_ROOT}/compilers_and_libraries/linux/bin/intel64/icc
 source ${ISS_ROOT}/bin/compilervars.sh -arch intel64 -platform linux
 source ${ISS_ROOT}/iss_env.sh
-
+```
 ## RISC-V Tools
+```Bash
 export JAVA_HOME=/opt/jdk1.8.0_192
 export PATH=${PATH}:${JAVA_HOME}/bin
 export RISCV_GCCHOME=/opt/RISC-V/tools/riscv64-unknown-elf-gcc-8.2.0-2019.02.0-x86_64-linux-ubuntu14
 export RISCV_OCDHOME=/opt/RISC-V/riscv-openocd-0.10.0-2019.02.0-x86_64-linux-ubuntu14
 export RISCV=${RISCV_GCCHOME}
 export RISCV_OPENOCD=${RISCV_OCDHOME}
-
+```
 ## Xilinx Setup
+```Bash
 XILINXD_LICENSE_FILE=2@PizzatheHutt.PlanetTatooine.com
 export XIL_HOME=/opt/Xilinx/Vivado/2018.2/
 export XIL_SHOME=/opt/Xilinx/SDK/2018.2/
@@ -254,7 +258,7 @@ export PATH=${PATH}:${XIL_HOME}/bin:${XIL_SHOME}/bin
 source /opt/Xilinx/Vivado/2018.2/settings64.sh
 source /opt/Xilinx/SDK/2018.2/settings64.sh
 Altera GUI Command: ${XIL_HOME}/bin/vivado -mode gui
-
+```
 ## File Organization for adding an Intel FPGA Configuration
 freedom
 src/main/scala
