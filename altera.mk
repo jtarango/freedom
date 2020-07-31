@@ -20,9 +20,6 @@ export ROMCONF=$(BUILD_DIR)/$(CONFIG_PROJECT).$(CONFIG).rom.conf
 ###################################################################
 export FPGA_TOP_SYSTEM=$(MODEL)
 export FPGA_BUILD_DIR=$(BUILD_DIR)/$(FPGA_TOP_SYSTEM)
-# export fpga_common_script_dir=$(FPGA_DIR)/common/tcl
-# export fpga_board_script_dir=$(FPGA_DIR)/$(BOARD)/tcl
-
 export BUILD_DIR
 
 EXTRA_FPGA_VSRCS ?=
@@ -119,13 +116,11 @@ $(info File Sources - $(VSRCS))
 ###################################################################
 .PHONY: mcs
 mcs: $(romgen) $(f) verilog fpga_make
-	fpga_make 
 
- .PHONY: fpga_make
+.PHONY: fpga_make
 fpga_make: verilog $(romgen)
 	cp -fv $(FPGA_BASE_MAKE) $(BUILD_DIR)
 	$(MAKE) -C $(BUILD_DIR)
-
 
 ###################################################################
 # Copy files and run Intel FPGA generation process.
