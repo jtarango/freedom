@@ -11,6 +11,9 @@ Kit](https://www.xilinx.com/products/boards-and-kits/ek-v7-vc707-g.html).
 Both systems boot autonomously and can be controlled via an external debugger.
 Additionally, Intel FPGA templates on the [Stratix 10](https://www.intel.com/content/www/us/en/programmable/products/boards_and_kits/dev-kits/altera/kit-s10-fpga.html) and [Cyclone IV](https://www.intel.com/content/www/us/en/products/programmable/fpga/cyclone-iv.html) 
 
+## Google Document Guide
+https://docs.google.com/document/d/1VdJVWCOn55ZDcifb2cRxUoz93DYgmhTlgw8Ug94zJ9o/edit#heading=h.v4rx8jl79b43
+
 Run the following commands to clone the repository and get started:
 
 ```sh
